@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Currency</string>
+    <string name="char_code_default">USD</string>
+    <string name="name_default">Доллар США</string>
+    <string name="value_default">1</string>
+    <string name="previous_value_default">+0</string>
+</resources>
