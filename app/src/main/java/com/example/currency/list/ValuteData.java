@@ -1,4 +1,4 @@
-package com.example.currency;
+package com.example.currency.list;
 
 public class ValuteData{
 

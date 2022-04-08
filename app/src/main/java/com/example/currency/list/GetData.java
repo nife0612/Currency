@@ -1,4 +1,4 @@
-package com.example.currency;
+package com.example.currency.list;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.currency.NetworkCheck;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,8 +52,12 @@ public class GetData extends AsyncTask<String, String, String> {
         try {
             URL url = new URL(URL_LINK) ;
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-            InputStream inputStream = urlConnection.getInputStream();
+            InputStream inputStream;
+            if(NetworkCheck.isNetworkAvailable(context))
+                 inputStream = urlConnection.getInputStream();
+            else{
+                inputStream = context.getAssets().open("Default.json");
+            }
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
             int tmp = inputStreamReader.read();
@@ -96,20 +102,13 @@ public class GetData extends AsyncTask<String, String, String> {
                         tmp.getString("Value"),
                         tmp.getString("Previous")
                 );
-                
                 dataList.add(data);
-
             }
-
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         PutDataIntoRecycleView();
-
-
     }
 
     private void PutDataIntoRecycleView() {

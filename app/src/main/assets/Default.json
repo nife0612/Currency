@@ -1,0 +1,26 @@
+{
+  "Date": "2022-04-01T11:30:00+03:00",
+  "PreviousDate": "2022-03-31T11:30:00+03:00",
+  "PreviousURL": "\/\/www.cbr-xml-daily.ru\/archive\/2022\/03\/31\/daily_json.js",
+  "Timestamp": "2022-04-01T16:00:00+03:00",
+  "Valute": {
+    "USD": {
+      "ID": "R01235",
+      "NumCode": "840",
+      "CharCode": "USD",
+      "Nominal": 1,
+      "Name": "Доллар США",
+      "Value": 1.0,
+      "Previous": 0.0
+    },
+    "EUR": {
+      "ID": "R01239",
+      "NumCode": "978",
+      "CharCode": "EUR",
+      "Nominal": 1,
+      "Name": "Евро",
+      "Value": 1.0,
+      "Previous": 0.0
+    }
+  }
+}
