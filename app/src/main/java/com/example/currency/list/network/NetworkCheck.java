@@ -1,4 +1,4 @@
-package com.example.currency;
+package com.example.currency.list.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -19,7 +19,7 @@ public class NetworkCheck {
             if(networkCapabilities == null) return false;
 
             if(networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) return true;
-            else if(networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {return true;}
+            else if(networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) return true;
             else return false;
 
         }

@@ -2,17 +2,19 @@ package com.example.currency.list;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.currency.activity.ConvertActivity;
+import com.example.currency.Modules;
 import com.example.currency.R;
+import com.example.currency.list.data_types.ValuteData;
 
 import java.util.List;
 
@@ -22,16 +24,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private final Context context;
     private final List<ValuteData> data;
 
-    private String calculateDifference(String previous, String value){
-        double val = Double.parseDouble(value) - Double.parseDouble(previous);
-        return myFormat(Double.toString(val));
-    }
-
-    @SuppressLint("DefaultLocale")
-    private String myFormat(String val){
-        Double d_val = Double.parseDouble(val);
-        return String.format("%.2f", d_val);
-    }
 
     public MyAdapter(Context context, List<ValuteData> data) {
         this.context = context;
@@ -49,28 +41,34 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        
+        Double previous = new Double(data.get(position).getPrevious());
+        Double value = new Double(data.get(position).getValue());
+        Double nominal = new Double(data.get(position).getNominal());
 
+        previous /= nominal;
+        value /= nominal;
 
 
         holder.tv_char_code.setText(data.get(position).getCharCode());
         holder.tv_name.setText(data.get(position).getName());
-        holder.tv_value.setText(myFormat(data.get(position).getValue()));
+        holder.tv_value.setText(Modules.myFormat(value));
 
-        String s_tmp = calculateDifference(data.get(position).getPrevious(), data.get(position).getValue());
-        double d_tmp = Double.parseDouble(s_tmp);
+        String s_tmp = Modules.calculateDifference(previous, value);
+        Modules.textColoring(holder.tv_previous_value, s_tmp);
 
 
-        holder.tv_previous_value.setText(s_tmp);
-        if(d_tmp > 0.0){
-
-            holder.tv_previous_value.setTextColor(Color.GREEN);
-        }
-        else if(d_tmp < 0.0){
-            holder.tv_previous_value.setTextColor(Color.RED);
-        }
-
-        holder.itemView.setOnClickListener(view -> Toast.makeText(context, data.get(position).getValue(), Toast.LENGTH_SHORT).show());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ConvertActivity.class);
+                intent.putExtra("char_code", holder.tv_char_code.getText());
+                intent.putExtra("name", holder.tv_name.getText());
+                intent.putExtra("value", holder.tv_value.getText());
+                intent.putExtra("previous_value", holder.tv_previous_value.getText());
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

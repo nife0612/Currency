@@ -4,4 +4,6 @@
     <string name="name_default">Доллар США</string>
     <string name="value_default">1</string>
     <string name="previous_value_default">+0</string>
+    <string name="ok">OK</string>
+
 </resources>

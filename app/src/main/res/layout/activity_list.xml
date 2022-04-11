@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityLIstMain"
-    android:background="@color/design_default_color_primary">
+    tools:context=".activity.ActivityListMain"
+    android:background="@color/design_default_color_primary_variant">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycle_view"

@@ -1,4 +1,4 @@
-package com.example.currency.list;
+package com.example.currency.list.network;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,16 +7,22 @@ import android.os.AsyncTask;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.currency.NetworkCheck;
+import com.example.currency.list.MyAdapter;
+import com.example.currency.list.data_types.ValuteData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,36 +53,9 @@ public class GetData extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... strings) {
 
-        StringBuilder current = new StringBuilder();
-
-        try {
-            URL url = new URL(URL_LINK) ;
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            InputStream inputStream;
-            if(NetworkCheck.isNetworkAvailable(context))
-                 inputStream = urlConnection.getInputStream();
-            else{
-                inputStream = context.getAssets().open("Default.json");
-            }
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-
-            int tmp = inputStreamReader.read();
-            while (tmp != -1){
-                current.append((char) tmp);
-                tmp = inputStreamReader.read();
-            }
-
-            urlConnection.disconnect();
-
-            return current.toString();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        return null;
+        return Data.getData(context, URL_LINK);
     }
+
 
     @Override
     protected void onPostExecute(String s) {
@@ -103,6 +82,7 @@ public class GetData extends AsyncTask<String, String, String> {
                         tmp.getString("Previous")
                 );
                 dataList.add(data);
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -116,4 +96,7 @@ public class GetData extends AsyncTask<String, String, String> {
         view.setLayoutManager(new LinearLayoutManager(context));
         view.setAdapter(adapter);
     }
+
+
+
 }
